@@ -1,3 +1,4 @@
+// path to user model
 const { User } = require("../models/User");
 
 const userController = {
@@ -106,3 +107,5 @@ const userController = {
 
 // export userController
 module.exports = userController;
+
+// error catchers will display an error message if established letting the user know that their search was invalid or their delete/update was successful.
