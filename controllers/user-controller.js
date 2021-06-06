@@ -51,11 +51,9 @@ const userController = {
     )
       .then((dbUserData) => {
         if (!dbUserData) {
-          res
-            .status(404)
-            .json({
-              message: "THERE ISNT ANY USER WITH THAT ID! WHAT ARE YOU DOING?!",
-            });
+          res.status(404).json({
+            message: "THERE ISNT ANY USER WITH THAT ID! WHAT ARE YOU DOING?!",
+          });
           return;
         }
         res.json(dbUserData);
@@ -64,5 +62,24 @@ const userController = {
   },
 
   //   update user
-  updateUser({ params, body }, res) {},
+  updateUser({ params, body }, res) {
+    User.findOneAndUpdate({ _id: params.id }, body, {
+      new: true,
+      runValidators: true,
+    })
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res
+            .status(404)
+            .json({
+              message: "THERE ISNT ANY USER WITH THAT ID! WHAT ARE YOU DOING?",
+            });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => res.json(err));
+  },
+  //   delete a user
+  deleteUser({ params }, res) {},
 };
