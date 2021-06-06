@@ -45,14 +45,33 @@ const thoughtController = {
       })
       .then((dbUserData) => {
         if (!dbUserData) {
-          res
-            .status(404)
-            .json({
-              message: "THERE ISNT ANY USER WITH THAT ID! WHAT ARE YOU DOING?!",
-            });
+          res.status(404).json({
+            message:
+              "THERE ISNT ANY USER WITH THAT USERNAME! WHAT ARE YOU DOING?!",
+          });
           return;
         }
         res.json(dbUserData);
+      })
+      .catch((err) => res.json(err));
+  },
+  //   add a reaction
+  addReaction({ params, body }, res) {
+    Thought.findOneandUpdate(
+      { _id: params.thoughtId },
+      { $push: { reaction: body } },
+      { new: true, runValidators: true }
+    )
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
+          res
+            .status(404)
+            .json({
+              message: "THERE IS NO THOUGHT WITH THAT ID! WHAT ARE YOU DOING?!",
+            });
+          return;
+        }
+        res.json(dbThoughtData);
       })
       .catch((err) => res.json(err));
   },
