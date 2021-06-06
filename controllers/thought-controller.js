@@ -64,15 +64,23 @@ const thoughtController = {
     )
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
-          res
-            .status(404)
-            .json({
-              message: "THERE IS NO THOUGHT WITH THAT ID! WHAT ARE YOU DOING?!",
-            });
+          res.status(404).json({
+            message: "THERE IS NO THOUGHT WITH THAT ID! WHAT ARE YOU DOING?!",
+          });
           return;
         }
         res.json(dbThoughtData);
       })
+      .catch((err) => res.json(err));
+  },
+  //   delete a reaction!
+  deleteReaction({ params }, res) {
+    Thought.findOneandDelete(
+      { _id: params.thoughtId },
+      { $pull: { reactions: { ractionId: params.reactionId } } },
+      { new: true }
+    )
+      .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((err) => res.json(err));
   },
 };
