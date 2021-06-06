@@ -33,4 +33,27 @@ const thoughtController = {
         res.status(500).json(err);
       });
   },
+  //   create a thought
+  creatThought({ params, body }, res) {
+    Thought.create(body)
+      .then(({ _id }) => {
+        return User.findOneAndUpdate(
+          { username: body.username },
+          { $push: { thoughts: _id } },
+          { new: true }
+        );
+      })
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res
+            .status(404)
+            .json({
+              message: "THERE ISNT ANY USER WITH THAT ID! WHAT ARE YOU DOING?!",
+            });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => res.json(err));
+  },
 };
