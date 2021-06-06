@@ -69,6 +69,20 @@ const userController = {
     })
       .then((dbUserData) => {
         if (!dbUserData) {
+          res.status(404).json({
+            message: "THERE ISNT ANY USER WITH THAT ID! WHAT ARE YOU DOING?",
+          });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => res.json(err));
+  },
+  //   delete a user
+  deleteUser({ params }, res) {
+    User.findOneAndDelete({ _id: params.id })
+      .then((dbUserData) => {
+        if (!dbUserData) {
           res
             .status(404)
             .json({
@@ -78,8 +92,8 @@ const userController = {
         }
         res.json(dbUserData);
       })
-      .catch((err) => res.json(err));
+      .catch((err) => res.status(400).json(err));
   },
-  //   delete a user
-  deleteUser({ params }, res) {},
+  //   remove a friend!
+  removeFriend({ params }, res) {},
 };
