@@ -99,4 +99,21 @@ const thoughtController = {
       })
       .catch((err) => res.json(err));
   },
+  //   delete a thought by ID
+  deleteThought({ params, body }, res) {
+    Thought.findOneAndDelete({ _id: params.id })
+      .then((deletedThought) => {
+        if (!deletedThought) {
+          return res
+            .status(404)
+            .json({ message: "NO THOUGHT WITH THIS ID! WHAT ARE YOU DOING?!" });
+        }
+        res.json(deletedThought);
+      })
+      .catch((err) => res.json(err));
+  },
 };
+
+// export thought controller
+
+module.exports = thoughtController;
