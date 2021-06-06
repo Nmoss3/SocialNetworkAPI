@@ -37,11 +37,32 @@ const userController = {
 
   //   create User
   createUser({ body }, res) {
-    USer.create(body)
+    User.create(body)
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.status(400).json(err));
   },
 
   //   add a friend
-  addFriend({ params }, res) {},
+  addFriend({ params }, res) {
+    User.findOneAndUpdate(
+      { _id: params.userId },
+      { $push: { friends: params.friendsId } },
+      { new: true, runValidators: true }
+    )
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res
+            .status(404)
+            .json({
+              message: "THERE ISNT ANY USER WITH THAT ID! WHAT ARE YOU DOING?!",
+            });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => res.json(err));
+  },
+
+  //   update user
+  updateUser({ params, body }, res) {},
 };
