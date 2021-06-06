@@ -36,5 +36,12 @@ const userController = {
   },
 
   //   create User
-  createUser({ body }, res) {},
+  createUser({ body }, res) {
+    USer.create(body)
+      .then((dbUserData) => res.json(dbUserData))
+      .catch((err) => res.status(400).json(err));
+  },
+
+  //   add a friend
+  addFriend({ params }, res) {},
 };
