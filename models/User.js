@@ -11,11 +11,11 @@ const UserSchema = new Schema(
       unique: true,
     },
     email: {
-      type: string,
+      type: String,
       required: true,
       trim: true,
       unique: true,
-      validate: email,
+      validate: [/.+@.+\..+/],
     },
     thoughts: [{ type: Schema.Types.ObjectId, ref: "Thought" }],
     friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
