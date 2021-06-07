@@ -35,3 +35,15 @@ https://docs.mongodb.com/manual/
 
 Moment.js
 https://momentjs.com/
+
+## Walk Through Video
+
+(link)
+
+## Author
+
+Nicholas Moss
+
+Have questions?
+
+Contact me: kappellnick@gmail.com
